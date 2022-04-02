@@ -1,10 +1,31 @@
-const http = require('http');
+const express = require('express');
+const app     = express();
+const port = 3000;
 
-const server = http.createServer((request, response) => {
-    response.write('Hola Mundo');
-    response.end();
+app.use(express.static('public'));
+
+app.get('/generic', function (req, res) {
+    res.sendFile(__dirname + '/public/generic.html');
 });
 
-server.listen(3000);
+app.get('/elements', function (req, res) {
+    res.sendFile(__dirname + '/public/elements.html');
+});
 
-console.log('Escuchando en el puerto 3000');
+
+// app.get('/', function (req, res) {
+//     res.send('Hello World');
+// });
+
+app.get('/hola-mundo', function (req, res) {
+    res.send('Hello World in its own route');
+});
+
+app.get('*', function (req, res) {
+    res.sendFile(__dirname + '/public/404.html');
+});
+
+app.listen(port, () => {
+    console.log(`Example app listening on port http://localhost:${port}`);
+});
+  
